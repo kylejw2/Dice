@@ -7,7 +7,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      randomNumber: 0,
       currentMax: null,
       diceList: []
     };
@@ -23,18 +22,11 @@ export default class App extends React.Component {
     }, () => console.log(this.state.diceList));
   }
 
-  handleNewRandom(num) {
-    this.setState({randomNumber: num});
-  }
-
   render() {
     return (
       <div className="App">
         <h1>Welcome to the Dice Game</h1>
-        <RandomNum 
-          onClick={(num) => this.handleNewRandom(num)} 
-          value={this.state.currentMax}
-        />
+        <RandomNum value={this.state.currentMax} />
         <Dice onClick={(dice) => this.handleAddDiceClick(dice)}/>
         <ul>
           {this.state.diceList.map((dice, index) => <li key={index}>{dice}</li>)}
