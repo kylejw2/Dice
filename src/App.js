@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Dice from './dice';
-// import RandomNum from './randomNum'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,29 +12,35 @@ export default class App extends React.Component {
     };
   }
   
-
   handleAddDiceClick(dice) {
     const diceList = this.state.diceList.slice();
     diceList.push(dice);
     this.setState({
       diceList: diceList,
       currentMax: dice
-    }, () => console.log(this.state.diceList));
+    });
   }
 
   calcRandomNum() {
     if (this.state.diceList.length > 0) {
-      return Math.ceil(Math.random() * this.state.diceList[this.state.diceList.length - 1]);
+      const randomNum = Math.ceil(Math.random() * this.state.currentMax);
+      return randomNum;
     } else {
       return 0;
     }
   } 
 
   handleOldDiceClick(event) {
-    // event.preventDefault();
+    this.setState({currentMax: event.target.textContent});
   }
 
   render() {
+    const diceList = this.state.diceList.map((dice, index) => {
+      return (<button
+        key={index}
+        onClick={(event) => this.handleOldDiceClick(event)}
+      >{dice}</button>)});
+
     return (
       <div className="App">
         <h1>Welcome to the Dice Game</h1>
@@ -43,10 +48,7 @@ export default class App extends React.Component {
         <h3>Your random number: {this.calcRandomNum()}</h3>
         <h4>Your dice: </h4>
         <ul>
-          {this.state.diceList.map((dice, index) => <button
-            key={index}
-
-          >{dice}</button>)}
+          {diceList}
         </ul>
       </div>
     );
